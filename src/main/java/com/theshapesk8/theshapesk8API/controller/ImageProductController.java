@@ -14,46 +14,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.theshapesk8.theshapesk8API.model.Client;
-import com.theshapesk8.theshapesk8API.service.ClientServices;
+import com.theshapesk8.theshapesk8API.model.ImagemProduct;
+import com.theshapesk8.theshapesk8API.service.ImagemProductServices;
 
 @RestController
-@RequestMapping("/client")
-public class ClientController {
-
-	@Autowired
-	private ClientServices service;
+@RequestMapping("/imageProduct")
+public class ImageProductController {
 	
-	/*
-	 * ENDPOINT DE USO INTERNO - DESATIVADO PRA SER USADO
-	 * 
-	 * @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Client> findAll() {
+	@Autowired
+	private ImagemProductServices service;
+	
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ImagemProduct> findAll() {
 		return service.findAll();
-	}*/
+	}
 	
 	@GetMapping(value = "/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public Client findById(@PathVariable(value = "id") Long id) throws Exception {
+	public ImagemProduct findById(@PathVariable(value = "id") Long id) throws Exception {
 		return service.findById(id);
 	}
 	
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Client create(@RequestBody Client client) {
-		return service.create(client);
+	public ImagemProduct create(@RequestBody ImagemProduct imagemProduct) {
+		return service.create(imagemProduct);
 	}
 	
 	@PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Client update(@RequestBody Client client) {
-		return service.update(client);
+	public ImagemProduct update(@RequestBody ImagemProduct imagemProduct) {
+		return service.update(imagemProduct);
 	}
 	
-	/*
-	 * ENDPOINT DE USO INTERNO - DESATIVADO PRA SER USADO
-	 * 
-	 * @DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
-	}*/
-	
+	}
+
 }

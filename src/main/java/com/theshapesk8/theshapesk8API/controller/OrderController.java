@@ -14,46 +14,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.theshapesk8.theshapesk8API.model.Client;
-import com.theshapesk8.theshapesk8API.service.ClientServices;
+import com.theshapesk8.theshapesk8API.model.Order;
+import com.theshapesk8.theshapesk8API.service.OrderServices;
 
 @RestController
-@RequestMapping("/client")
-public class ClientController {
+@RequestMapping("/order")
+public class OrderController {
 
 	@Autowired
-	private ClientServices service;
+	private OrderServices service;
 	
-	/*
-	 * ENDPOINT DE USO INTERNO - DESATIVADO PRA SER USADO
-	 * 
-	 * @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Client> findAll() {
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Order> findAll() {
 		return service.findAll();
-	}*/
+	}
 	
 	@GetMapping(value = "/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public Client findById(@PathVariable(value = "id") Long id) throws Exception {
+	public Order findById(@PathVariable(value = "id") Long id) throws Exception {
 		return service.findById(id);
 	}
 	
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Client create(@RequestBody Client client) {
-		return service.create(client);
+	public Order create(@RequestBody Order order) {
+		return service.create(order);
 	}
 	
 	@PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Client update(@RequestBody Client client) {
-		return service.update(client);
+	public Order update(@RequestBody Order order) {
+		return service.update(order);
 	}
 	
-	/*
-	 * ENDPOINT DE USO INTERNO - DESATIVADO PRA SER USADO
-	 * 
-	 * @DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
-	}*/
+	}
 	
 }
