@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.theshapesk8.theshapesk8API.exceptions.ResourceNotFoundException;
+import com.theshapesk8.theshapesk8API.model.ImagemProduct;
 import com.theshapesk8.theshapesk8API.model.Product;
 import com.theshapesk8.theshapesk8API.model.ProductDetail;
 import com.theshapesk8.theshapesk8API.repositories.ProductRepository;
@@ -59,6 +60,11 @@ public class ProductServices {
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 		
 		repository.delete(entity);
+	}
+	
+	public List<Product> findByProductDetailId(Long productDetailId) {
+		logger.info("Finding all products for ProductDetail ID: " + productDetailId);
+		return repository.findByProductDetailId(productDetailId);
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.theshapesk8.theshapesk8API.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -23,7 +24,7 @@ public class Order implements Serializable {
 	private Long id;
 	
 	@Column(name = "valorTotal", nullable = false, precision = 10, scale = 2)
-	private float valorTotal;
+	private BigDecimal valorTotal;
 	
 	@Column(name = "data", nullable = false)
     private LocalDate data;
@@ -48,11 +49,11 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public float getValorTotal() {
+    public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(float valorTotal) {
+    public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
 

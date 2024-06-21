@@ -60,4 +60,9 @@ public class ImagemProductServices {
 		repository.delete(entity);
 	}
 	
+	public List<ImagemProduct> findByProductDetailId(Long productDetailId) {
+		logger.info("Finding all images for ProductDetail ID: " + productDetailId);
+		return repository.findByProductDetailId(productDetailId);
+	}
+	
 }
