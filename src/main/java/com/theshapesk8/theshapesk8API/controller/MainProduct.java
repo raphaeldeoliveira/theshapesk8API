@@ -1,5 +1,6 @@
 package com.theshapesk8.theshapesk8API.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +31,27 @@ public class MainProduct {
 	@Autowired
 	private ProductServices productService;
 	
-	/*@GetMapping(value = "/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<ImagemProduct> findById(@PathVariable(value = "id") Long id) throws Exception {
-		return service.findByProductDetailId(id);
-	}*/
-	
-	/*@GetMapping(value = "/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ProductPayload findById(@PathVariable(value = "id") Long id) throws Exception {
-		List<ImagemProduct> images = imageProductService.findByProductDetailId(id);
-		ProductDetail productDetail = productDetailService.findById(id);
-		Product product = productService.findById(id);
-		return new ProductPayload(images, product, productDetail);
-	}*/
-	
+	// ENDPOINT PRA PEGAR OS PRODUTOS QUE ESTÃO EM ESTOQUE
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ProductPayload> findAll() {
+	    List<ProductPayload> productsPayload = new ArrayList<>();
+	    List<ProductDetail> productDetails = productDetailService.findAll();
+
+	    for (ProductDetail productDetail : productDetails) {
+	        List<ImagemProduct> images = imageProductService.findByProductDetailId(productDetail.getId());
+	        List<Product> products = productService.findByProductDetailId(productDetail.getId());
+	        if (!products.isEmpty()) {
+	            boolean hasNonZeroQuantity = products.stream().anyMatch(product -> product.getQuantidade() > 0);
+	            if (hasNonZeroQuantity) {
+	                productsPayload.add(new ProductPayload(images, products, productDetail));
+	            }
+	        }
+	    }
+
+	    return productsPayload;
+	}
+
+	// ENDPOINT QUE PEGA UM PRODUTO ESPEPECIFICO PELO PRODUCTDETAIL
 	@GetMapping(value = "/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ProductPayload findById(@PathVariable(value = "id") Long id) throws Exception {
 		List<ImagemProduct> images = imageProductService.findByProductDetailId(id);

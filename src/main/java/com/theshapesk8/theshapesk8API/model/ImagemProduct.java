@@ -2,6 +2,8 @@ package com.theshapesk8.theshapesk8API.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class ImagemProduct implements Serializable {
 	
 	@ManyToOne
     @JoinColumn(name = "id_Produto_Detalhes", referencedColumnName = "id", nullable = false)
+	@JsonIgnore
     private ProductDetail productDetail;
 
     public ImagemProduct() {
@@ -61,7 +64,7 @@ public class ImagemProduct implements Serializable {
         return "ImagemProduct{" +
                 "id=" + id +
                 ", imagem='" + imagem + '\'' +
-                ", productDetail=" + productDetail +
+                ", productDetail=" +
                 '}';
     }
 

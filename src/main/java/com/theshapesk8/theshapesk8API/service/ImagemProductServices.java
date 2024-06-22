@@ -46,7 +46,7 @@ public class ImagemProductServices {
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 		
 		entity.setImagem(imagemProduct.getImagem());
-		entity.setProductDetail(imagemProduct.getProductDetail());
+		/*entity.setProductDetail(imagemProduct.getProductDetail());*/
 		
 		return repository.save(imagemProduct);
 	}
