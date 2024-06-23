@@ -125,6 +125,40 @@ public class MainProduct {
 		productDetailService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	// ENDPOINT PRA BUSCAR UM PRODUTO (POR SEARCH BAR OU BRANDING)
+	/*@GetMapping(value = "search/{searchTerm}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ProductPayload> findBySearchTerm(@PathVariable(value = "searchTerm") String searchTerm) throws Exception {
+		
+		List<ProductPayload> productsPayload = new ArrayList<>();
+		List<ProductDetail> productDetails = productDetailService.findAll();
+		
+		for (ProductDetail productDetail : productDetails) {
+			
+		}
+		
+		
+		return productsPayload;
+	}*/
+	
+	@GetMapping(value = "search/{searchTerm}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ProductPayload> findBySearchTerm(@PathVariable("searchTerm") String searchTerm) {
+        List<ProductPayload> productsPayload = new ArrayList<>();
+        List<ProductDetail> productDetails = productDetailService.findBySearchTerm(searchTerm);
+
+        for (ProductDetail productDetail : productDetails) {
+	        List<ImagemProduct> images = imageProductService.findByProductDetailId(productDetail.getId());
+	        List<Product> products = productService.findByProductDetailId(productDetail.getId());
+	        if (!products.isEmpty()) {
+	            boolean hasNonZeroQuantity = products.stream().anyMatch(product -> product.getQuantidade() > 0);
+	            if (hasNonZeroQuantity) {
+	                productsPayload.add(new ProductPayload(images, products, productDetail));
+	            }
+	        }
+	    }
+
+	    return productsPayload;
+    }
 
 	
 }

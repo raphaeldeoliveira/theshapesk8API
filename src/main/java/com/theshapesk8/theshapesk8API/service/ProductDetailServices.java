@@ -64,5 +64,11 @@ public class ProductDetailServices {
 		
 		repository.delete(entity);
 	}
+	
+	public List<ProductDetail> findBySearchTerm(String searchTerm) {
+		logger.info("Finding one ProductDetail by Search Term!");
+		
+        return repository.findBySearchTerm(searchTerm);
+    }
 
 }
