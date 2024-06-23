@@ -2,16 +2,11 @@ package com.theshapesk8.theshapesk8API.model;
 
 import java.util.List;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-
 public class ProductPayload {
-	
-	private List<ImagemProduct> images;
+    private List<ImagemProduct> images;
     private List<Product> products;
     private ProductDetail productDetail;
-    
+
     public ProductPayload() {}
 
     public ProductPayload(List<ImagemProduct> images, List<Product> products, ProductDetail productDetail) {
@@ -20,7 +15,6 @@ public class ProductPayload {
         this.productDetail = productDetail;
     }
 
-    @OneToMany(mappedBy = "productDetail")
     public List<ImagemProduct> getImages() {
         return images;
     }
@@ -29,18 +23,14 @@ public class ProductPayload {
         this.images = images;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_Produto_Detalhes")
-    public List<Product> getProduct() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProduct(List<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_Produto_Detalhes")
     public ProductDetail getProductDetail() {
         return productDetail;
     }
@@ -48,5 +38,4 @@ public class ProductPayload {
     public void setProductDetail(ProductDetail productDetail) {
         this.productDetail = productDetail;
     }
-
 }

@@ -32,7 +32,6 @@ public class ImagemProduct implements Serializable {
     private ProductDetail productDetail;
 
     public ImagemProduct() {
-        
     }
     
     public Long getId() {
@@ -67,5 +66,4 @@ public class ImagemProduct implements Serializable {
                 ", productDetail=" +
                 '}';
     }
-
 }

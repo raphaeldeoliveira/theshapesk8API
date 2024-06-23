@@ -49,7 +49,8 @@ public class ProductDetailServices {
 		entity.setDescricao(productDetail.getDescricao());
 		entity.setValor(productDetail.getValor());
 		entity.setCategoria(productDetail.getCategoria());
-		entity.setSubCategoria(productDetail.getSubCategoria());
+		//entity.setSubCategoria(productDetail.getSubCategoria());
+		entity.setSubcategoria(productDetail.getSubcategoria());
 		entity.setMarca(productDetail.getMarca());
 		
 		return repository.save(productDetail);

@@ -36,7 +36,6 @@ public class Product implements Serializable {
 	private ProductDetail productDetail;
 
 	public Product() {
-		
 	}
 	
 	public Long getId() {
@@ -80,5 +79,4 @@ public class Product implements Serializable {
                 ", productDetail=" + productDetail +
                 '}';
     }
-
 }

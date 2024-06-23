@@ -41,8 +41,6 @@ public class ProductDetail implements Serializable {
     public ProductDetail() {
     }
 
-    // Getters and setters
-
     public Long getId() {
         return id;
     }
@@ -83,11 +81,11 @@ public class ProductDetail implements Serializable {
         this.categoria = categoria;
     }
 
-    public String getSubCategoria() {
+    public String getSubcategoria() {
         return subcategoria;
     }
 
-    public void setSubCategoria(String subcategoria) {
+    public void setSubcategoria(String subcategoria) {
         this.subcategoria = subcategoria;
     }
 
