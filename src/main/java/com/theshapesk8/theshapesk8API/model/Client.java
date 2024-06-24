@@ -101,4 +101,6 @@ public class Client implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 	
+	
+	
 }

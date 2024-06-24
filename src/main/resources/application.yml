@@ -11,3 +11,17 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
       show-sql: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: theshapesk8@gmail.com
+    password: lqwy ypes kkzx grkg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# senha do email: SherekOFilme321

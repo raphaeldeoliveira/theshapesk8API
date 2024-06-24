@@ -8,5 +8,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
 	Client findByCpfAndSenha(String cpf, String senha);
     Client findByEmailAndSenha(String email, String senha);
+    Client findByEmail(String email);
 	
 }

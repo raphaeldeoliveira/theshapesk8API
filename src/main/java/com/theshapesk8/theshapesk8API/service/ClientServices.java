@@ -64,11 +64,18 @@ public class ClientServices {
 	}
 	
 	public Client findByCpfAndSenha(String cpf, String senha) {
+		logger.info("Finding a client by cpf and password");
         return repository.findByCpfAndSenha(cpf, senha);
     }
 
     public Client findByEmailAndSenha(String email, String senha) {
+    	logger.info("Finding a client by email and password");
         return repository.findByEmailAndSenha(email, senha);
+    }
+    
+    public Client findByEmail(String email) {
+    	logger.info("Finding a Client by Email");
+    	return repository.findByEmail(email);
     }
 	
 }
