@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.theshapesk8.theshapesk8API.model.Client;
+import com.theshapesk8.theshapesk8API.model.LoginResponse;
 import com.theshapesk8.theshapesk8API.service.ClientServices;
 
 @RestController
@@ -17,7 +18,7 @@ import com.theshapesk8.theshapesk8API.service.ClientServices;
 //@CrossOrigin(origins = "http://localhost:3000")
 @CrossOrigin(origins = "*")
 public class ClientController {
-
+	
 	@Autowired
 	private ClientServices clientService;
 	
@@ -26,28 +27,29 @@ public class ClientController {
 	    if (client == null || client.getSenha() == null) {
 	        return ResponseEntity.status(400).body("Client or password is missing");
 	    }
-	    
+
 	    String cpf = client.getCpf();
 	    String email = client.getEmail();
 	    String senha = client.getSenha();
 
-	    boolean isValidCpf = false;
-	    boolean isValidEmail = false;
+	    Client validClient = null;
 
 	    if (cpf != null && !cpf.isEmpty()) {
-	        isValidCpf = clientService.validateLoginWithCpf(cpf, senha);
+	        validClient = clientService.findByCpfAndSenha(cpf, senha);
 	    }
 
 	    if (email != null && !email.isEmpty()) {
-	        isValidEmail = clientService.validateLoginWithEmail(email, senha);
+	        validClient = clientService.findByEmailAndSenha(email, senha);
 	    }
 
-	    if (isValidCpf || isValidEmail) {
-	        return ResponseEntity.ok("Login successful");
+	    if (validClient != null) {
+	        Long clientId = validClient.getId();
+	        return ResponseEntity.ok(new LoginResponse(clientId, "Login successful"));
 	    } else {
 	        return ResponseEntity.status(401).body("Invalid credentials");
 	    }
 	}
+
 	
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Client register(@RequestBody Client client) {

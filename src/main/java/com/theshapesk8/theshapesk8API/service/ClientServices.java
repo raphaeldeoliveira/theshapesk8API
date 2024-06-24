@@ -63,21 +63,12 @@ public class ClientServices {
 		repository.delete(entity);
 	}
 	
-	public boolean validateLoginWithCpf(String cpf, String senha) {
-	    Client client = repository.findByCpf(cpf);
-	    if (client != null && client.getSenha().equals(senha)) {
-	        return true;
-	    }
-	    return false;
-	}
+	public Client findByCpfAndSenha(String cpf, String senha) {
+        return repository.findByCpfAndSenha(cpf, senha);
+    }
 
-	
-	public boolean validateLoginWithEmail(String email, String senha) {
-	    Client client = repository.findByEmail(email);
-	    if (client != null && client.getSenha().equals(senha)) {
-	        return true;
-	    }
-	    return false;
-	}
+    public Client findByEmailAndSenha(String email, String senha) {
+        return repository.findByEmailAndSenha(email, senha);
+    }
 	
 }

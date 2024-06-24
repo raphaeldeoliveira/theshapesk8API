@@ -6,7 +6,7 @@ import com.theshapesk8.theshapesk8API.model.Client;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-	Client findByEmail(String email);
-    Client findByCpf(String cpf);
+	Client findByCpfAndSenha(String cpf, String senha);
+    Client findByEmailAndSenha(String email, String senha);
 	
 }
