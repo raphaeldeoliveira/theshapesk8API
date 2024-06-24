@@ -3,6 +3,8 @@ package com.theshapesk8.theshapesk8API.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class Client implements Serializable {
 	@Column(name = "senha", nullable = false, length = 255)
 	private String senha;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@Column(name = "dataNascimento", nullable = true, length = 255)
 	private Date dataNascimento;
 	
