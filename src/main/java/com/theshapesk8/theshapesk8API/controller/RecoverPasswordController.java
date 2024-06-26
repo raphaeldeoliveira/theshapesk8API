@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ public class RecoverPasswordController {
 
     @Autowired
     private EmailService emailService;
+    
+    private Logger logger = Logger.getLogger(ClientServices.class.getName());
 
     private List<RecoverPassword> userCodeEmailAndDataGenerate = new ArrayList<>();
 
