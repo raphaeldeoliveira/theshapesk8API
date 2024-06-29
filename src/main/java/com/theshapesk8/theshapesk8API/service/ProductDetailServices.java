@@ -1,13 +1,13 @@
 package com.theshapesk8.theshapesk8API.service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.theshapesk8.theshapesk8API.exceptions.ResourceNotFoundException;
-import com.theshapesk8.theshapesk8API.model.Address;
 import com.theshapesk8.theshapesk8API.model.ProductDetail;
 import com.theshapesk8.theshapesk8API.repositories.ProductDetailRepository;
 
@@ -19,11 +19,15 @@ public class ProductDetailServices {
 	@Autowired
 	ProductDetailRepository repository;
 	
-	public List<ProductDetail> findAll() {
+	/*public List<ProductDetail> findAll() {
 		logger.info("Finding all ProductDetails");
 
 		return repository.findAll();
-	}
+	}*/
+	
+	public Page<ProductDetail> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
 	
 	public ProductDetail findById(Long id) {
 		logger.info("Finding one ProductDetail!");
@@ -65,10 +69,14 @@ public class ProductDetailServices {
 		repository.delete(entity);
 	}
 	
-	public List<ProductDetail> findBySearchTerm(String searchTerm) {
+	/*public List<ProductDetail> findBySearchTerm(String searchTerm) {
 		logger.info("Finding one ProductDetail by Search Term!");
 		
         return repository.findBySearchTerm(searchTerm);
-    }
+    }*/
+	
+	public Page<ProductDetail> findBySearchTerm(String searchTerm, Pageable pageable) {
+	    return repository.findBySearchTermContaining(searchTerm, pageable);
+	}
 
 }

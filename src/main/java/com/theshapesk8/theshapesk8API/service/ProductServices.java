@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.theshapesk8.theshapesk8API.exceptions.ResourceNotFoundException;
-import com.theshapesk8.theshapesk8API.model.ImagemProduct;
 import com.theshapesk8.theshapesk8API.model.Product;
-import com.theshapesk8.theshapesk8API.model.ProductDetail;
 import com.theshapesk8.theshapesk8API.repositories.ProductRepository;
 
 @Service

@@ -1,9 +1,15 @@
 package com.theshapesk8.theshapesk8API.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.theshapesk8.theshapesk8API.model.ImagemProduct;
@@ -40,7 +47,7 @@ public class ProductController {
 	private ProductServices productService;
 	
 	// ENDPOINT PRA PEGAR OS PRODUTOS QUE ESTÃO EM ESTOQUE
-	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	/*@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<ProductPayload> findAll() {
 	    List<ProductPayload> productsPayload = new ArrayList<>();
 	    List<ProductDetail> productDetails = productDetailService.findAll();
@@ -57,7 +64,60 @@ public class ProductController {
 	    }
 
 	    return productsPayload;
+	}*/
+	
+	/*@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ProductPayload> findAll(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "20") int size) {
+	    
+	    List<ProductPayload> productsPayload = new ArrayList<>();
+	    Pageable pageable = PageRequest.of(page, size);
+	    Page<ProductDetail> productDetails = productDetailService.findAll(pageable);
+
+	    for (ProductDetail productDetail : productDetails) {
+	        List<ImagemProduct> images = imageProductService.findByProductDetailId(productDetail.getId());
+	        List<Product> products = productService.findByProductDetailId(productDetail.getId());
+	        if (!products.isEmpty()) {
+	            boolean hasNonZeroQuantity = products.stream().anyMatch(product -> product.getQuantidade() > 0);
+	            if (hasNonZeroQuantity) {
+	                productsPayload.add(new ProductPayload(images, products, productDetail));
+	            }
+	        }
+	    }
+
+	    return productsPayload;
+	}*/
+	
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> findAll(
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "20") int size) {
+
+	    Pageable pageable = PageRequest.of(page, size);
+	    Page<ProductDetail> productDetailsPage = productDetailService.findAll(pageable);
+
+	    List<ProductPayload> productsPayload = new ArrayList<>();
+	    for (ProductDetail productDetail : productDetailsPage.getContent()) {
+	        List<ImagemProduct> images = imageProductService.findByProductDetailId(productDetail.getId());
+	        List<Product> products = productService.findByProductDetailId(productDetail.getId());
+	        if (!products.isEmpty()) {
+	            boolean hasNonZeroQuantity = products.stream().anyMatch(product -> product.getQuantidade() > 0);
+	            if (hasNonZeroQuantity) {
+	                productsPayload.add(new ProductPayload(images, products, productDetail));
+	            }
+	        }
+	    }
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("content", productsPayload);
+	    response.put("currentPage", productDetailsPage.getNumber());
+	    response.put("totalItems", productDetailsPage.getTotalElements());
+	    response.put("totalPages", productDetailsPage.getTotalPages());
+
+	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
 
 	// ENDPOINT QUE PEGA UM PRODUTO ESPEPECIFICO PELO PRODUCTDETAIL
 	@GetMapping(value = "/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -126,7 +186,7 @@ public class ProductController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping(value = "search/{searchTerm}", produces = MediaType.APPLICATION_JSON_VALUE)
+	/*@GetMapping(value = "search/{searchTerm}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ProductPayload> findBySearchTerm(@PathVariable("searchTerm") String searchTerm) {
         List<ProductPayload> productsPayload = new ArrayList<>();
         List<ProductDetail> productDetails = productDetailService.findBySearchTerm(searchTerm);
@@ -143,6 +203,37 @@ public class ProductController {
 	    }
 
 	    return productsPayload;
-    }
+    }*/
+	
+	@GetMapping(value = "search/{searchTerm}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> findBySearchTerm(
+	        @PathVariable("searchTerm") String searchTerm,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "20") int size) {
+
+	    List<ProductPayload> productsPayload = new ArrayList<>();
+	    Pageable paging = PageRequest.of(page, size);
+	    Page<ProductDetail> pageProductDetails = productDetailService.findBySearchTerm(searchTerm, paging);
+
+	    for (ProductDetail productDetail : pageProductDetails.getContent()) {
+	        List<ImagemProduct> images = imageProductService.findByProductDetailId(productDetail.getId());
+	        List<Product> products = productService.findByProductDetailId(productDetail.getId());
+	        if (!products.isEmpty()) {
+	            boolean hasNonZeroQuantity = products.stream().anyMatch(product -> product.getQuantidade() > 0);
+	            if (hasNonZeroQuantity) {
+	                productsPayload.add(new ProductPayload(images, products, productDetail));
+	            }
+	        }
+	    }
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("content", productsPayload);
+	    response.put("currentPage", pageProductDetails.getNumber());
+	    response.put("totalItems", pageProductDetails.getTotalElements());
+	    response.put("totalPages", pageProductDetails.getTotalPages());
+
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
 
 }
